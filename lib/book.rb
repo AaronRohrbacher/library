@@ -23,4 +23,8 @@ attr_reader(:book_title, :update_title, :id)
     @id = attributes.fetch(:id).to_i
     DB.exec("DELETE FROM books WHERE id = #{@id}")
   end
+
+  def search(query)
+    DB.exec("SELECT * FROM books WHERE title LIKE '%#{query}%';")
+  end
 end

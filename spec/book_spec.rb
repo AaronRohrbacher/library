@@ -40,4 +40,26 @@ describe(Book) do
       expect(array).to eq([])
     end
   end
+
+  describe("#search") do
+    it('search for a book by it\'\s title') do
+      book = Book.new({:book_title => "A book"})
+      book.save()
+      expect(book.search("book")[0].fetch("title")).to eq("A book")
+    end
+  end
+
+  describe("#catalog") do
+    it('Adds a book and its authors to catalog') do
+      book = Book.new({:book_title => "title1", :author_id => 1})
+      book.save
+      author = Author.new({:author => "hemmingway", :book_id => 1}) #book_id will need to be pulled from the book you're adding to
+      author.save
+      catalog = Catalog.new({:author_id => 1, :book_id => 1, :book => book.fetch(:book_title), :author => author.fetch(:author)})
+      catalog.save
+      Author.new({:author => "smith", :book_id => 1})
+
+
+    end
+  end
 end
