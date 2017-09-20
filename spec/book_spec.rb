@@ -27,7 +27,7 @@ describe(Book) do
     end
   end
 
-  describe("#delte") do
+  describe("#delete") do
     it('delete a selected book') do
       array = []
       book = Book.new({:book_title => "A book"})
@@ -43,23 +43,30 @@ describe(Book) do
 
   describe("#search") do
     it('search for a book by it\'\s title') do
-      book = Book.new({:book_title => "A book"})
+      book = Book.new({:book_title => "A book", :author_id => 1})
       book.save()
       expect(book.search("book")[0].fetch("title")).to eq("A book")
     end
   end
 
-  describe("#catalog") do
-    it('Adds a book and its authors to catalog') do
-      book = Book.new({:book_title => "title1", :author_id => 1})
-      book.save
-      author = Author.new({:author => "hemmingway", :book_id => 1}) #book_id will need to be pulled from the book you're adding to
-      author.save
-      catalog = Catalog.new({:author_id => 1, :book_id => 1, :book => book.fetch(:book_title), :author => author.fetch(:author)})
-      catalog.save
-      Author.new({:author => "smith", :book_id => 1})
+  # describe("#catalog") do
+  #   it('Adds a book and its authors to catalog') do
+  #     book = Book.new({:book_title => "title1"})
+  #     book.save
+  #     author = Author.new({:author_name => "Hemmigway"})
+  #     author.save
+  #
+  #     catalog = Catalog.new({:book_id => author.book_id, :author_id => })
+  #     catalog.save
+  #
+  #     author2 = Author.new({:author_name => "Dickenson"})
+  #     author2.save
+  #
+  #
+  #     catalog2 = Catalog.new({:book_id => author2.book_id, :author_id => })
+  #     catalog2.save
+  #
+  #   end
+  # end
 
-
-    end
-  end
 end

@@ -10,7 +10,7 @@ attr_reader(:book_title, :update_title, :id)
   end
 
   def save
-    DB.exec("INSERT INTO books (title, author_id) VALUES ('#{@book_title}', 1);")
+    DB.exec("INSERT INTO books (title) VALUES ('#{@book_title}');")
   end
 
   def update(attributes)
