@@ -50,4 +50,8 @@ attr_accessor(:id)
   def search(query)
     DB.exec("SELECT * FROM authors WHERE name LIKE '%#{query}%';")
   end
+
+  def find(id)
+    DB.exec("SELECT * FROM authors WHERE id = #{id};")
+  end
 end

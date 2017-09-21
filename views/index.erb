@@ -1,0 +1,17 @@
+
+<% if @authors.any?() %>
+  <ul>
+<% @authors.each do |author| %>
+    <li><a href ="/authors/<%= author["id"] %>"><%= author["name"] %></a></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @books.any?() %>
+<ul>
+<% @books.each do |book| %>
+  <li><a href ="/books/<%= book["id"] %>"><%= book["title"] %></a></li>
+  <% end %>
+</ul>
+
+<% end %>
