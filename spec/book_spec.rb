@@ -26,7 +26,6 @@ describe(Book) do
       expect(Book.all[0].fetch("title")).to eq("Some other book")
     end
     it("lets you add an author to a book") do
-      #make an array that populates with the id's? after each book and author?
       book = Book.new({:book_title => "A Hemmingway Book", :id => nil})
       book.save()
       hemmingway = Author.new({:author_name => "Hemmingway", :id => nil})
@@ -47,7 +46,6 @@ describe(Book) do
       rohrbacher = Author.new({:author_name => "Rohrbacher", :id => nil})
       rohrbacher.save()
       book.update({:author_id => [hemmingway.id(), rohrbacher.id()]})
-      # result.fetch("author_id").to_i()
       expect(book.authors()).to(eq([hemmingway, rohrbacher]))
     end
   end

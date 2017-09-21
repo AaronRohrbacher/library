@@ -17,15 +17,29 @@ attr_accessor(:id)
 
   end
 
+  def update(attributes)
+    @author_name = attributes.fetch(:update_author, @author_name)
+    DB.exec("UPDATE authors SET name = '#{@author_name}' WHERE id = #{self.id};")
+
+    attributes.fetch(:book_id, []).each() do |book_id|
+      DB.exec("INSERT INTO authors_books (book_id, author_id) VALUES (#{book_id}, #{self.id});")
+    end
+  end
+
   def ==(another_author)
     self.author_name().==(another_author.author_name()).&(self.id().==(another_author.id()))
   end
 
-
-  def update(attributes)
-    @update_author = attributes.fetch(:update_author, :id)
-    @id = attributes.fetch(:id).to_i
-    DB.exec("UPDATE authors SET name = '#{@update_author}' WHERE id = #{@id}")
+  def books
+    author_books = []
+    results = DB.exec("SELECT book_id FROM authors_books WHERE author_id = #{self.id};")
+    results.each() do |result|
+      book_id = result.fetch("book_id").to_i()
+      book = DB.exec("SELECT * FROM books WHERE id = #{book_id};")
+      book_title = book.first().fetch("title")
+      author_books.push(Book.new({:book_title => book_title, :id => book_id}))
+    end
+    author_books
   end
 
   def delete(attributes)

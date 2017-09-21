@@ -19,11 +19,34 @@ describe(Author) do
 
   describe("#update") do
     it('updates a name of an author in the database') do
+      book = Book.new({:book_title => "A Book", :id => nil})
+      book.save()
+      id = Book.all[0].fetch("id")
+      book.update(:update_title => "Another Book", :id => id)
+      expect(Book.all[0].fetch("title")).to eq("Another Book")
+    end
+    it("lets you add an author to a book") do
       author = Author.new({:author_name => "Hemmingway", :id => nil})
       author.save()
-      id = Author.all[0].fetch("id")
-      author.update(:update_author => "Rohrbacher", :id => id)
-      expect(Author.all[0].fetch("name")).to eq("Rohrbacher")
+      a_book = Book.new({:book_title => "A Book", :id => nil})
+      a_book.save()
+      another_book = Book.new({:book_title => "Another Book", :id => nil})
+      another_book.save()
+      author.update({:book_id => [a_book.id(), another_book.id()]})
+      expect(author.books()).to(eq([a_book, another_book]))
+    end
+  end
+
+  describe("#books") do
+    it("returns all of the books to a particular author") do
+      author = Author.new({:author_name => "Hemmingway", :id => nil})
+      author.save()
+      a_book = Book.new({:book_title => "A Book", :id => nil})
+      a_book.save()
+      another_book = Book.new({:book_title => "Another Book", :id => nil})
+      another_book.save()
+      author.update({:book_id => [a_book.id(), another_book.id()]})
+      expect(author.books()).to(eq([a_book, another_book]))
     end
   end
 
